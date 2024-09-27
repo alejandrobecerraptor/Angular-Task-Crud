@@ -1,0 +1,45 @@
+import { Component, OnInit } from '@angular/core';
+import { Tarea } from '../interfaces/task';
+
+@Component({
+  selector: 'shared-show-tasks',
+  templateUrl: './show-tasks.component.html',
+  styles: [
+  ]
+})
+export class ShowTasksComponent implements OnInit {
+
+  tareas: Tarea[] = [];
+  tareasFiltradas: Tarea[] = [];
+  filtroActual: string = 'todas'; // Default todas
+
+  constructor() {}
+
+  ngOnInit(): void {
+    // Recuperar tareas guardadas desde el localStorage
+    const tareasEnLocalStorage = localStorage.getItem('tareasGuardadas');
+    if (tareasEnLocalStorage) {
+      this.tareas = JSON.parse(tareasEnLocalStorage);
+    }
+    this.filtrarTareas('todas');
+  }
+
+    // Filtrar las tareas según el filtro seleccionado
+    filtrarTareas(filtro: string): void {
+      this.filtroActual = filtro;
+      if (filtro === 'completadas') {
+        this.tareasFiltradas = this.tareas.filter(tarea => tarea.tareaCompletada);
+      } else if (filtro === 'pendientes') {
+        this.tareasFiltradas = this.tareas.filter(tarea => !tarea.tareaCompletada);
+      } else {
+        this.tareasFiltradas = [...this.tareas]; // Todas las tareas
+      }
+    }
+
+      // Marcar o desmarcar una tarea como completada
+  cambiarEstadoTarea(tarea: Tarea): void {
+    tarea.tareaCompletada = !tarea.tareaCompletada;
+    localStorage.setItem('tareasGuardadas', JSON.stringify(this.tareas)); // Actualizar localStorage
+  }
+
+}

@@ -1,0 +1,55 @@
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header">
+      <h3>Lista de Tareas</h3>
+    </div>
+    <div class="card-body">
+      <!-- Filtros -->
+
+      <div class="mb-4 d-flex flex-column flex-md-row justify-content-center align-items-center">
+        <p class="me-2 mb-2 mb-md-0"><b>Filtros:</b></p>
+        <button class="btn btn-primary me-2 mb-2 mb-md-0" (click)="filtrarTareas('todas')" [class.active]="filtroActual === 'todas'">
+          Todas
+        </button>
+        <button class="btn btn-success me-2 mb-2 mb-md-0" (click)="filtrarTareas('completadas')" [class.active]="filtroActual === 'completadas'">
+          Completadas
+        </button>
+        <button class="btn btn-danger mb-2 mb-md-0" (click)="filtrarTareas('pendientes')" [class.active]="filtroActual === 'pendientes'">
+          Pendientes
+        </button>
+      </div>
+
+
+      <!-- Lista de Tareas -->
+      <div *ngIf="tareasFiltradas.length > 0">
+        <div *ngFor="let tarea of tareasFiltradas; let i = index" class="card mb-3">
+          <div class="card-body">
+
+            <h5 class="card-title">{{i + 1}}. {{ tarea.nombreTarea }}
+              <small class="text-muted">- Fecha Límite: {{ tarea.fechaLimite }}</small>
+            </h5>
+
+            <h6 class="card-subtitle mb-2 mt-2 text-body-emphasis">Personas Asociadas:</h6>
+
+            <div *ngFor="let persona of tarea.personas" class="mb-2">
+              <strong>- {{ persona.nombreCompleto }}</strong> ({{ persona.edad }} años)
+              <p>Habilidades: {{ persona.habilidades.join(', ') }}</p>
+            </div>
+
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" [checked]="tarea.tareaCompletada" (change)="cambiarEstadoTarea(tarea)">
+              <label class="form-check-label">
+                {{ tarea.tareaCompletada ? 'Tarea Completada' : 'Tarea Pendiente' }}
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="tareasFiltradas.length === 0">
+        <p class="text-center">No hay tareas para mostrar.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
