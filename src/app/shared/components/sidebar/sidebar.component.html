@@ -1,0 +1,8 @@
+<h2>Menú</h2>
+<hr />
+
+<ul class="list-group" style="cursor: pointer">
+  <li *ngFor="let link of links" [routerLink]="link.path" routerLinkActive="active" class="list-group-item">
+    {{ link.label }}
+  </li>
+</ul>
