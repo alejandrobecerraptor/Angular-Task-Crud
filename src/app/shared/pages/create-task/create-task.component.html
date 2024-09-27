@@ -1,0 +1,215 @@
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header">
+      <h3>Crear nueva tarea</h3>
+    </div>
+
+    <div class="card-body">
+      <form [formGroup]="tareaForm" (ngSubmit)="guardarTarea()">
+        <div class="mb-3">
+          <label for="nombreTarea" class="form-label">Nombre de la tarea</label>
+          <input
+            id="nombreTarea"
+            type="text"
+            formControlName="nombreTarea"
+            class="form-control"
+            [ngClass]="{
+              'is-invalid':
+                tareaForm.get('nombreTarea')?.touched &&
+                tareaForm.get('nombreTarea')?.invalid
+            }"
+          />
+          <div
+            *ngIf="
+              tareaForm.get('nombreTarea')?.touched &&
+              tareaForm.get('nombreTarea')?.invalid
+            "
+            class="invalid-feedback"
+          >
+            El nombre de la tarea es obligatorio.
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="fechaLimite" class="form-label">Fecha límite</label>
+          <input
+            id="fechaLimite"
+            type="date"
+            formControlName="fechaLimite"
+            class="form-control"
+            [ngClass]="{
+              'is-invalid':
+                tareaForm.get('fechaLimite')?.touched &&
+                tareaForm.get('fechaLimite')?.invalid
+            }"
+          />
+          <div
+            *ngIf="
+              tareaForm.get('fechaLimite')?.touched &&
+              tareaForm.get('fechaLimite')?.invalid
+            "
+            class="invalid-feedback"
+          >
+            La fecha límite es obligatoria.
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-check-label" for="tareaCompletada">
+            ¿Tarea Completada?
+          </label>
+          <input
+            class="form-check-input ms-3"
+            type="checkbox"
+            value=""
+            id="tareaCompletada"
+            formControlName="tareaCompletada"
+          />
+        </div>
+
+        <div class="mb-3">
+          <h4>Personas Asociadas:</h4>
+
+          <div formArrayName="personas">
+            <div
+              *ngFor="let persona of personas.controls; let i = index"
+              [formGroupName]="i"
+              class="mb-4"
+            >
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label">Nombre completo</label>
+                  <input
+                    type="text"
+                    formControlName="nombreCompleto"
+                    class="form-control"
+                    [ngClass]="{
+                      'is-invalid':
+                        personas.at(i).get('nombreCompleto')?.touched &&
+                        personas.at(i).get('nombreCompleto')?.invalid
+                    }"
+                  />
+                  <div
+                    *ngIf="personas.at(i).get('nombreCompleto')?.touched && personas.at(i).get('nombreCompleto')?.errors?.['required']"
+                    class="invalid-feedback"
+                  >
+                    El nombre es obligatorio.
+                  </div>
+                  <div
+                    *ngIf="personas.at(i).get('nombreCompleto')?.touched && personas.at(i).get('nombreCompleto')?.errors?.['nombreRepetido']"
+                    class="invalid-feedback"
+                  >
+                    El nombre ya está en uso.
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <label class="form-label">Edad</label>
+                  <input
+                    type="number"
+                    formControlName="edad"
+                    class="form-control"
+                    [ngClass]="{
+                      'is-invalid':
+                        personas.at(i).get('edad')?.touched &&
+                        personas.at(i).get('edad')?.invalid
+                    }"
+                  />
+                  <div
+                    *ngIf="personas.at(i).get('edad')?.touched && personas.at(i).get('edad')?.errors?.['required']"
+                    class="invalid-feedback"
+                  >
+                    La edad es obligatoria.
+                  </div>
+                  <div
+                    *ngIf="personas.at(i).get('edad')?.touched && personas.at(i).get('edad')?.errors?.['min']"
+                    class="invalid-feedback"
+                  >
+                    La persona debe tener más de 18 años.
+                  </div>
+                </div>
+
+                <!-- Habilidades de la persona -->
+                <div class="col-md-12">
+                  <label class="form-label">Habilidades</label>
+                  <div formGroupName="habilidadesGroup">
+                    <input
+                      type="text"
+                      formControlName="nuevaHabilidad"
+                      class="form-control"
+                      placeholder="Añadir habilidad"
+                    />
+
+                    <div
+                      *ngIf="(personas.at(i).get('habilidadesGroup')?.get('nuevaHabilidad')?.errors?.['required'] && personas.at(i).get('nuevaHabilidad')?.touched)
+                          || personas.at(i).get('habilidadesGroup')?.get('habilidades')?.errors?.['required']"
+                      class="invalid-feedback d-block"
+                    >
+                      Debe añadir al menos una habilidad.
+                    </div>
+
+                    <button
+                      type="button"
+                      class="btn btn-warning mt-2"
+                      (click)="agregarHabilidad(i)"
+                    >
+                      + Añadir Habilidad
+                    </button>
+
+                    <ul class="list-group mt-2">
+                      <li
+                        *ngFor="
+                          let habilidad of getHabilidades(i).controls;
+                          let j = index
+                        "
+                        class="list-group-item d-flex justify-content-between align-items-center"
+                      >
+                        {{ habilidad.value }}
+                        <button
+                          type="button"
+                          class="btn btn-danger btn-sm"
+                          (click)="eliminarHabilidad(i, j)"
+                        >
+                          X
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <!-- Boton para eliminar la persona -->
+              <button
+                type="button"
+                class="btn btn-danger mt-3"
+                (click)="eliminarPersona(i)"
+              >
+                Eliminar Persona
+              </button>
+            </div>
+          </div>
+
+          <!-- Boton para agregar una nueva persona -->
+          <button
+            type="button"
+            class="btn btn-primary mt-3"
+            (click)="agregarPersona()"
+            [disabled]="tareaForm.invalid"
+          >
+            Agregar Nueva Persona
+          </button>
+        </div>
+
+        <!-- Boton para guardar la tarea -->
+        <div class="text-center mt3">
+          <button
+            type="submit"
+            class="btn btn-success"
+            [disabled]="tareaForm.invalid"
+          >
+            Guardar Tarea
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
