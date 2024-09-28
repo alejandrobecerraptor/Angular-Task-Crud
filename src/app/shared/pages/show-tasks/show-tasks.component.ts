@@ -1,12 +1,22 @@
 import { Component, OnInit } from '@angular/core';
+import { NgIf, NgFor } from '@angular/common';
 import { Tarea } from '../interfaces/task';
+
+// @Component({
+//   selector: 'shared-show-tasks',
+//   templateUrl: './show-tasks.component.html',
+//   styles: [
+//   ]
+// })
 
 @Component({
   selector: 'shared-show-tasks',
+  standalone: true,
   templateUrl: './show-tasks.component.html',
-  styles: [
-  ]
+  imports: [NgIf, NgFor],
+  styles: [],
 })
+
 export class ShowTasksComponent implements OnInit {
 
   tareas: Tarea[] = [];
