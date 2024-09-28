@@ -1,0 +1,9 @@
+<button
+  [ngClass]="[btnClass, isActive ? 'active' : '']"
+  [attr.type]="buttonType"
+  (click)="handleClick()"
+  [disabled]="isDisabled"
+  class="btn"
+>
+  <i *ngIf="iconClass" [ngClass]="iconClass"></i> {{ label }}
+</button>
