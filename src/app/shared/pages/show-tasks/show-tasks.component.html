@@ -8,15 +8,30 @@
 
       <div class="mb-4 d-flex flex-column flex-md-row justify-content-center align-items-center">
         <p class="me-2 mb-2 mb-md-0"><b>Filtros:</b></p>
-        <button class="btn btn-primary me-2 mb-2 mb-md-0" (click)="filtrarTareas('todas')" [class.active]="filtroActual === 'todas'">
-          Todas
-        </button>
-        <button class="btn btn-success me-2 mb-2 mb-md-0" (click)="filtrarTareas('completadas')" [class.active]="filtroActual === 'completadas'">
-          Completadas
-        </button>
-        <button class="btn btn-danger mb-2 mb-md-0" (click)="filtrarTareas('pendientes')" [class.active]="filtroActual === 'pendientes'">
-          Pendientes
-        </button>
+
+        <shared-button-default
+          [label]="'Todas'"
+          [btnClass]="'btn btn-primary me-2 mb-2 mb-md-0'"
+          [iconClass]="'fa-regular fa-star'"
+          [isActive]="filtroActual === 'todas'"
+          (onClick)="filtrarTareas('todas')">
+        </shared-button-default>
+
+        <shared-button-default
+          [label]="'Completas'"
+          [btnClass]="'btn btn-success me-2 mb-2 mb-md-0'"
+          [iconClass]="'fa-regular fa-square-check'"
+          [isActive]="filtroActual === 'completadas'"
+          (onClick)="filtrarTareas('completadas')">
+        </shared-button-default>
+
+        <shared-button-default
+          [label]="'Pendientes'"
+          [btnClass]="'btn btn-danger mb-2 mb-md-0'"
+          [iconClass]="'fa-regular fa-clock'"
+          [isActive]="filtroActual === 'pendientes'"
+          (onClick)="filtrarTareas('pendientes')">
+        </shared-button-default>
       </div>
 
 
@@ -25,9 +40,17 @@
         <div *ngFor="let tarea of tareasFiltradas; let i = index" class="card mb-3">
           <div class="card-body">
 
-            <h5 class="card-title">{{i + 1}}. {{ tarea.nombreTarea }}
-              <small class="text-muted">- Fecha Límite: {{ tarea.fechaLimite }}</small>
-            </h5>
+            <div class="d-flex align-items-center">
+              <h5 class="card-title">{{i + 1}}. {{ tarea.nombreTarea }}
+                <small class="text-muted">- Fecha Límite: {{ tarea.fechaLimite }}</small>
+              </h5>
+              <shared-button-default
+                [label]="'Eliminar'"
+                [btnClass]="'btn-danger ms-2'"
+                [iconClass]="'fa fa-trash'"
+                (onClick)="eliminarTarea(i)"
+              ></shared-button-default>
+            </div>
 
             <h6 class="card-subtitle mb-2 mt-2 text-body-emphasis">Personas Asociadas:</h6>
 

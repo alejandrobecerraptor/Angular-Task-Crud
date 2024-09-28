@@ -5,6 +5,7 @@ import { CreateTaskComponent } from './pages/create-task/create-task.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ButtonDefaultComponent } from "./components/buttons/button-default/button-default.component";
 
 
 
@@ -17,8 +18,9 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     RouterModule,
-    ReactiveFormsModule
-  ],
+    ReactiveFormsModule,
+    ButtonDefaultComponent
+],
   exports: [
     CreateTaskComponent,
     // ShowTasksComponent,

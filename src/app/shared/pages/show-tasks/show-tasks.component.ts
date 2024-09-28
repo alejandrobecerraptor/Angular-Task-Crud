@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgIf, NgFor } from '@angular/common';
 import { Tarea } from '../interfaces/task';
+import { ButtonDefaultComponent } from '../../components/buttons/button-default/button-default.component';
 
 // @Component({
 //   selector: 'shared-show-tasks',
@@ -13,7 +14,7 @@ import { Tarea } from '../interfaces/task';
   selector: 'shared-show-tasks',
   standalone: true,
   templateUrl: './show-tasks.component.html',
-  imports: [NgIf, NgFor],
+  imports: [NgIf, NgFor, ButtonDefaultComponent],
   styles: [],
 })
 
@@ -46,10 +47,17 @@ export class ShowTasksComponent implements OnInit {
       }
     }
 
-      // Marcar o desmarcar una tarea como completada
-  cambiarEstadoTarea(tarea: Tarea): void {
-    tarea.tareaCompletada = !tarea.tareaCompletada;
-    localStorage.setItem('tareasGuardadas', JSON.stringify(this.tareas)); // Actualizar localStorage
-  }
+    // Marcar o desmarcar una tarea como completada
+    cambiarEstadoTarea(tarea: Tarea): void {
+      tarea.tareaCompletada = !tarea.tareaCompletada;
+      localStorage.setItem('tareasGuardadas', JSON.stringify(this.tareas));
+      this.filtrarTareas(this.filtroActual);
+    }
+
+    eliminarTarea(id: number): void {
+      this.tareas = this.tareas.filter((tarea, index) => index !== id);
+      localStorage.setItem('tareasGuardadas', JSON.stringify(this.tareas));
+      this.filtrarTareas(this.filtroActual);
+    }
 
 }

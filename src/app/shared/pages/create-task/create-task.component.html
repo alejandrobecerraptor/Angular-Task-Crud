@@ -148,13 +148,13 @@
                       Debe añadir al menos una habilidad.
                     </div>
 
-                    <button
-                      type="button"
-                      class="btn btn-warning mt-2"
-                      (click)="agregarHabilidad(i)"
+                    <shared-button-default
+                      [label]="'Añadir Habilidad'"
+                      [btnClass]="'btn btn-warning mt-2'"
+                      [iconClass]="'fa-solid fa-plus'"
+                      (onClick)="agregarHabilidad(i)"
                     >
-                      + Añadir Habilidad
-                    </button>
+                    </shared-button-default>
 
                     <ul class="list-group mt-2">
                       <li
@@ -165,49 +165,50 @@
                         class="list-group-item d-flex justify-content-between align-items-center"
                       >
                         {{ habilidad.value }}
-                        <button
-                          type="button"
-                          class="btn btn-danger btn-sm"
-                          (click)="eliminarHabilidad(i, j)"
+
+                        <shared-button-default
+                          [btnClass]="'btn btn-danger btn-sm'"
+                          [iconClass]="'fa fa-trash'"
+                          (onClick)="eliminarHabilidad(i, j)"
                         >
-                          X
-                        </button>
+                        </shared-button-default>
                       </li>
                     </ul>
                   </div>
                 </div>
               </div>
               <!-- Boton para eliminar la persona -->
-              <button
-                type="button"
-                class="btn btn-danger mt-3"
-                (click)="eliminarPersona(i)"
+              <shared-button-default
+                [label]="'Eliminar Persona'"
+                [btnClass]="'btn btn-danger mt-3'"
+                [iconClass]="'fa fa-trash'"
+                (onClick)="eliminarPersona(i)"
               >
-                Eliminar Persona
-              </button>
+              </shared-button-default>
             </div>
           </div>
 
           <!-- Boton para agregar una nueva persona -->
-          <button
-            type="button"
-            class="btn btn-primary mt-3"
-            (click)="agregarPersona()"
-            [disabled]="tareaForm.invalid"
+          <shared-button-default
+            [label]="'Agregar Nueva Persona'"
+            [btnClass]="'btn btn-primary mt-3'"
+            [iconClass]="'fa-regular fa-address-book'"
+            [isDisabled]="tareaForm.invalid"
+            (onClick)="agregarPersona()"
           >
-            Agregar Nueva Persona
-          </button>
+          </shared-button-default>
         </div>
 
         <!-- Boton para guardar la tarea -->
         <div class="text-center mt3">
-          <button
-            type="submit"
-            class="btn btn-success"
-            [disabled]="tareaForm.invalid"
+          <shared-button-default
+            [label]="'Guardar Tarea'"
+            [btnClass]="'btn btn-success'"
+            [iconClass]="'fa-regular fa-floppy-disk'"
+            [isDisabled]="tareaForm.invalid"
+            [buttonType]="'submit'"
           >
-            Guardar Tarea
-          </button>
+          </shared-button-default>
         </div>
       </form>
     </div>
