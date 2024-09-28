@@ -89,18 +89,13 @@
                         personas.at(i).get('nombreCompleto')?.invalid
                     }"
                   />
-                  <div
-                    *ngIf="personas.at(i).get('nombreCompleto')?.touched && personas.at(i).get('nombreCompleto')?.errors?.['required']"
-                    class="invalid-feedback"
-                  >
-                    El nombre es obligatorio.
+
+                  <div *ngIf="personas.at(i).get('nombreCompleto')?.touched && personas.at(i).get('nombreCompleto')?.invalid" class="invalid-feedback">
+                    <div *ngIf="personas.at(i).get('nombreCompleto')?.errors?.['required']">El nombre es obligatorio.</div>
+                    <div *ngIf="personas.at(i).get('nombreCompleto')?.errors?.['minlength']">El nombre debe tener al menos 5 caracteres.</div>
+                    <div *ngIf="personas.at(i).get('nombreCompleto')?.errors?.['nombreRepetido']">El nombre ya está en uso.</div>
                   </div>
-                  <div
-                    *ngIf="personas.at(i).get('nombreCompleto')?.touched && personas.at(i).get('nombreCompleto')?.errors?.['nombreRepetido']"
-                    class="invalid-feedback"
-                  >
-                    El nombre ya está en uso.
-                  </div>
+
                 </div>
 
                 <div class="col-md-3">

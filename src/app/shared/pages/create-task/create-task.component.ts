@@ -45,7 +45,7 @@ export class CreateTaskComponent implements OnInit {
     const personaForm = this.fb.group({
       nombreCompleto: [
         '',
-        [Validators.required, this.nombreRepetidoValidator.bind(this)],
+        [Validators.required, Validators.minLength(5),this.nombreRepetidoValidator.bind(this)],
       ],
       edad: ['', [Validators.required, Validators.min(18)]],
       habilidadesGroup: this.fb.group({
